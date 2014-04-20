@@ -1,0 +1,20 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+  "name": "ImproveGistPager",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Improve Gist pager.",
+  "author": "Toshinari Suzuki",
+  "homepage_url": "http://suzuki.toshinari.jp",
+  "icons": {
+    "16": "images/16.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "content_scripts": [{
+    "matches": ["https://gist.github.com/*", "http://gist.github.com/*"],
+    "run_at": "document_end",
+    "js": ["script.js"],
+    "all_frames": true
+  }]
+}
