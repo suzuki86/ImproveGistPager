@@ -19,17 +19,29 @@ function isInserted(){
 
 function addPager(){
   var displayCount = 10;
-  var gistsCount = document.getElementsByClassName('counter')[0].childNodes[0].textContent;
+  var gistsCount = 0;
   var pageCount = 0;
   var pager = document.getElementsByClassName('pagination');
   var pagerHtml = pager[0].innerHTML;
   var userName = document.title.replace(/'s Gists/, '');
-  var pagerElementBase = pager[0].childNodes[0].cloneNode(true);
   var currentPageNumber = 0;
   var pagerElementCount = 0;
   var anchorElements = [];
   var pagerCounter = 1;
   var startNumber = 0;
+
+  console.log(document.getElementsByClassName('counter')[0].childNodes);
+
+  /**
+   * Set gists count.
+   */
+  if(window.location.toString().match(/forked/)){
+    gistsCount = document.getElementsByClassName('counter')[1].childNodes[0].textContent.replace(/,/, '');
+  }else if(window.location.toString().match(/starred/)){
+    gistsCount = document.getElementsByClassName('counter')[2].childNodes[0].textContent.replace(/,/, '');
+  }else{
+    gistsCount = document.getElementsByClassName('counter')[0].childNodes[0].textContent.replace(/,/, '');
+  }
 
   /**
    * Set number of pages.
@@ -61,10 +73,16 @@ function addPager(){
   /**
    * Disable first button when first page is displayed. 
    */
-  if(currentPageNumber == 1 || currentPageNumber == 0 || currentPageNumber == null){
+  if(currentPageNumber == null || currentPageNumber <= 1){
     pager[0].innerHTML = '<span id="pager_first" class="disabled">First</span>';
   }else{
-    pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '">First</a>';
+    if(window.location.toString().match(/forked/)){
+      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '/forked">First</a>';
+    }else if(window.location.toString().match(/starred/)){
+      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '/starred">First</a>';
+    }else{
+      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '">First</a>';
+    }
   }
 
   pager[0].innerHTML += pagerHtml;
@@ -72,10 +90,16 @@ function addPager(){
   /**
    * Disable last button when last page is displayed.
    */
-  if(currentPageNumber == pageCount){
+  if(currentPageNumber == pageCount || pageCount == null || pageCount <= 1){
     pager[0].innerHTML += '<span id="pager_last" class="disabled">Last</span>';
   }else{
-    pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '?page=' + pageCount + '">Last</a>';
+    if(window.location.toString().match(/forked/)){
+      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '/forked?page=' + pageCount + '">Last</a>';
+    }else if(window.location.toString().match(/starred/)){
+      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '/starred?page=' + pageCount + '">Last</a>';
+    }else{
+      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '?page=' + pageCount + '">Last</a>';
+    }
   }
 
   /**
@@ -100,7 +124,13 @@ function addPager(){
       pager[0].insertBefore(anchorElement, pager[0].childNodes[3]);
     }else{
       anchorElement = document.createElement('a');
-      anchorElement.setAttribute('href', '/' + userName + '?page=' + pagerCounter);
+      if(window.location.toString().match(/forked/)){
+        anchorElement.setAttribute('href', '/' + userName + '/forked?page=' + pagerCounter);
+      }else if(window.location.toString().match(/starred/)){
+        anchorElement.setAttribute('href', '/' + userName + '/starred?page=' + pagerCounter);
+      }else{
+        anchorElement.setAttribute('href', '/' + userName + '?page=' + pagerCounter);
+      }
       anchorElement.textContent = pagerCounter;
       pager[0].insertBefore(anchorElement, pager[0].childNodes[3]);
     }
