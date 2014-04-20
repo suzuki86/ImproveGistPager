@@ -20,16 +20,34 @@ function isInserted(){
 function addPager(){
   var displayCount = 10;
   var gistsCount = document.getElementsByClassName('counter')[0].childNodes[0].textContent;
-  var pageCount = Math.floor(gistsCount / 10) + 1;
+  var pageCount = 0;
   var pager = document.getElementsByClassName('pagination');
   var pagerHtml = pager[0].innerHTML;
   var userName = document.title.replace(/'s Gists/, '');
   var pagerElementBase = pager[0].childNodes[0].cloneNode(true);
   var currentPageNumber = 0;
-  var pagerElementCount = 9;
+  var pagerElementCount = 0;
   var anchorElements = [];
   var pagerCounter = 1;
   var startNumber = 0;
+
+  /**
+   * Set number of pages.
+   */
+  if(gistsCount % displayCount == 0){
+    pageCount = gistsCount / displayCount;
+  }else{
+    pageCount = Math.floor(gistsCount / displayCount) + 1;
+  }
+
+  /**
+   * Set number of pager elements.
+   */
+  if(pageCount > 9){
+    pagerElementCount = 9;
+  }else{
+    pagerElementCount = pageCount;
+  }
 
   /**
    * If page is not set, set 1.
