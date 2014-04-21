@@ -1,3 +1,3 @@
 # ImproveGistPager
 
-Google Chrome Extention that improves Gist pager.
+Google Chrome Extension that improves Gist pager.
