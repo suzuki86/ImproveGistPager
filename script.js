@@ -22,7 +22,7 @@ function addPager(){
   var gistsCount = 0;
   var pageCount = 0;
   var pager = document.getElementsByClassName('pagination');
-  var pagerHtml = pager[0].innerHTML;
+  var pagerHtml = '';
   var userName = document.title.replace(/'s Gists/, '');
   var currentPageNumber = 0;
   var pagerElementCount = 0;
@@ -30,7 +30,22 @@ function addPager(){
   var pagerCounter = 1;
   var startNumber = 0;
 
-  console.log(document.getElementsByClassName('counter')[0].childNodes);
+  /**
+   * If pager doesn't exists, exit.
+   */
+  if(!pager[0]){
+    return false;
+  }else{
+    pagerHtml = pager[0].innerHTML;
+  }
+
+  /**
+   * If counter doesn't exists, exit.
+   */
+
+  if(document.getElementsByClassName('counter').length < 1){
+    return false;
+  }
 
   /**
    * Set gists count.
